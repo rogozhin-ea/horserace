@@ -26,27 +26,27 @@ def menu():
 
 
 while True:
+    menu()
     try:
-        menu()
         choice = int(input("Введите ваш выбор: "))
-        print("-----------------------------------------------")
-
-        if choice == 1:
-            print("Лошади:")
-            show_table("horses")
-        elif choice == 2:
-            print("Владельцы:")
-            show_table("owner")
-        elif choice == 3:
-            print("Жокеи:")
-            show_table("rider")
-        elif choice == 4:
-            print("Состязания:")
-            show_table("competition")
-        elif choice == 5:
-            break;
-        else:
-            print("Недействительное значение.")
-
     except EOFError:
         print("Exception handled")
+
+    print("-----------------------------------------------")
+
+    if choice == 1:
+        print("Лошади:")
+        show_table("horses")
+    elif choice == 2:
+        print("Владельцы:")
+        show_table("owner")
+    elif choice == 3:
+        print("Жокеи:")
+        show_table("rider")
+    elif choice == 4:
+        print("Состязания:")
+        show_table("competition")
+    elif choice == 5:
+        break;
+    else:
+        print("Недействительное значение.")
