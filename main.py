@@ -24,29 +24,28 @@ def menu():
     print("5. Выход.")
     print("-----------------------------------------------")
 
-
-while True:
-    menu()
-    try:
+try:
+    while True:
+        menu()
         choice = int(input("Введите ваш выбор: "))
-    except EOFError:
-        print("Exception handled")
+        print("-----------------------------------------------")
 
-    print("-----------------------------------------------")
+        if choice == 1:
+            print("Лошади:")
+            show_table("horses")
+        elif choice == 2:
+            print("Владельцы:")
+            show_table("owner")
+        elif choice == 3:
+            print("Жокеи:")
+            show_table("rider")
+        elif choice == 4:
+            print("Состязания:")
+            show_table("competition")
+        elif choice == 5:
+            break;
+        else:
+            print("Недействительное значение.")
 
-    if choice == 1:
-        print("Лошади:")
-        show_table("horses")
-    elif choice == 2:
-        print("Владельцы:")
-        show_table("owner")
-    elif choice == 3:
-        print("Жокеи:")
-        show_table("rider")
-    elif choice == 4:
-        print("Состязания:")
-        show_table("competition")
-    elif choice == 5:
-        break;
-    else:
-        print("Недействительное значение.")
+except EOFError:
+    print("Exception handled")
