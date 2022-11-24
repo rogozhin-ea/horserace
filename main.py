@@ -24,12 +24,13 @@ def menu():
     print("2. Посмотреть информацию о владельцах лошадей.")
     print("3. Посмотреть информацию о жокеях.")
     print("4. Посмотреть информацию о состязаниях.")
+    print("5. Выход.")
     print("-----------------------------------------------")
 
 
 while True:
     menu()
-    choice = input("Введите ваш выбор: ")
+    choice = int(input("Введите ваш выбор: "))
     print("-----------------------------------------------")
 
     if choice == "1":
@@ -42,6 +43,9 @@ while True:
         print("Жокеи:")
         show_table("rider")
     elif choice == "4":
+        print("Состязания:")
+        show_table("competition")
+    elif choice == "5":
         print("Состязания:")
         show_table("competition")
     else:
