@@ -46,7 +46,6 @@ while True:
         print("Состязания:")
         show_table("competition")
     elif choice == "5":
-        print("Состязания:")
-        show_table("competition")
+        break;
     else:
         print("Недействительное значение.")
