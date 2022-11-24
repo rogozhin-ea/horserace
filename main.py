@@ -24,8 +24,8 @@ def menu():
     print("5. Выход.")
     print("-----------------------------------------------")
 
-try:
-    while True:
+
+while True:
         menu()
         choice = int(input("Введите ваш выбор: "))
         print("-----------------------------------------------")
@@ -46,6 +46,3 @@ try:
             break;
         else:
             print("Недействительное значение.")
-
-except EOFError:
-    print("Exception handled")
