@@ -1,7 +1,5 @@
 import sqlite3
-
-
-
+import sys
 
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
@@ -33,19 +31,20 @@ while True:
     choice = int(input("Введите ваш выбор: "))
     print("-----------------------------------------------")
 
-    if choice == "1":
+    if choice == 1:
         print("Лошади:")
         show_table("horses")
-    elif choice == "2":
+    elif choice == 2:
         print("Владельцы:")
         show_table("owner")
-    elif choice == "3":
+    elif choice == 3:
         print("Жокеи:")
         show_table("rider")
-    elif choice == "4":
+    elif choice == 4:
         print("Состязания:")
         show_table("competition")
-    elif choice == "5":
+    elif choice == 5:
         break;
     else:
         print("Недействительное значение.")
+sys.exit()
