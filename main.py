@@ -4,6 +4,8 @@ import sqlite3
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
     cursor = connection.cursor()
+    if name_for_show == "horses":
+        sql = "SELECT * "
     sql = "SELECT * FROM " + name_for_show
     cursor.execute(sql)
     records = cursor.fetchall()
