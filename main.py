@@ -13,6 +13,36 @@ def show_table(name_for_show):
 
     connection.close()
 
+def show_norm_table(option):
+    connection = sqlite3.connect('horse_racing.db')
+    cursor = connection.cursor()
+    if option == 1:
+        sql = "SELECT * FROM horses"
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        num = (len(records))
+        for i in range(1, num):
+            name = "SELECT Nickname FROM horses where id = " + str(i)
+            cursor.execute(name)
+            name_record = cursor.fetchone()
+            name_string = str(name_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
+            if len(name_string) < 12:
+                diff = 12 - len(name_string)
+                for k in range(1, diff):
+                    name_string = name_string + " "
+
+            gender = "SELECT Gender FROM horses where id = " + str(i)
+            cursor.execute(gender)
+            gen_record = cursor.fetchone()
+            gen_string = str(gen_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "") + "    "
+
+            age = "SELECT Age FROM horses where id = " + str(i)
+            cursor.execute(age)
+            age_record = cursor.fetchone()
+            age_string = str(age_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
+
+            print(name_string, gen_string, age_string)
+
 
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
@@ -35,7 +65,8 @@ while True:
 
         if choice == 1:
             print("Лошади:")
-            show_table("horses")
+            print("Имя         Пол         Возраст")
+            show_norm_table(1)
         elif choice == 2:
             print("Владельцы:")
             show_table("owner")
