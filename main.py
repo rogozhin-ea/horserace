@@ -1,15 +1,18 @@
 import sqlite3
 
+
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
     cursor = connection.cursor()
     sql = "SELECT * FROM " + name_for_show
     cursor.execute(sql)
-    for record in cursor:
-        print(record)
+    records = cursor.fetchall()
+    for row in records:
+        row_string = str(row).replace("(", "").replace(")", "").replace("'", "")
+        print(row_string)
 
-    #print(cursor.fetchall())
     connection.close()
+
 
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
