@@ -6,7 +6,7 @@ def show_table(name_for_show):
     cursor = connection.cursor()
     if name_for_show == "horses":
         sql = "SELECT * "
-    sql = "SELECT * FROM " + name_for_show
+    sql = "SELECT DISTINCT competition.name, competition.date_and_time, competition.address, competition.hippodrome_name, competition_result.places, rider.Name, horses.Nickname, competition_result.driving_time from competition_result JOIN competition ON competition_result.id_competiton = competition.id JOIN competition_riders_horses ON competition_result.id_competiton = competition_riders_horses.id_competition JOIN horses_and_riders ON competition_result.id_riders = horses_and_riders.id_riders JOIN rider ON horses_and_riders.id_riders = rider.ID JOIN horses ON horses_and_riders.id_horses = horses.id ORDER BY competition.name"
     cursor.execute(sql)
     records = cursor.fetchall()
     for row in records:
