@@ -12,7 +12,6 @@ def show_table(name_for_show):
     for row in records:
         row_string = str(row).replace("(", "").replace(")", "").replace("'", "")
         print(row_string)
-
     connection.close()
 
 
