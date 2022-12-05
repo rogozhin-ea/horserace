@@ -1,22 +1,6 @@
 import sqlite3
 import psycopg2
 
-def postgres_table():
-    host = "192.168.0.30"
-    user = "postgres"
-    password = "secret"
-    db_name = "horses_racing"
-    port = "5432"
-
-    conn = psycopg2.connect(database=db_name, user=user, password=password, host=host, port=port)
-    cur = conn.cursor()
-
-    cur.execute("SELECT * FROM horses;")
-    print(cur.fetchall())
-
-    conn.close()
-
-
 
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
@@ -159,6 +143,40 @@ def show_norm_table(option):
     connection.close()
 
 
+def enter_riders():
+    host = "localhost"
+    user = "postgres"
+    password = "secret"
+    db_name = "horse_racing"
+    port = "5432"
+
+    try:
+        conn = psycopg2.connect(database=db_name, user=user, password=password, host=host, port=port)
+    except:
+        print("Ошибка подключения")
+
+    try:
+        cur = conn.cursor()
+        cur.execute("""CREATE TABLE riders (
+                    id SERIAL NOT NULL PRIMARY KEY,
+                    name CHARACTER VARYING(30),
+                    email CHARACTER VARYING(30),
+                    age INTEGER;)""")
+        print(cur.fetchall())
+    except:
+        print("Ошибка создания базы данных")
+
+    count_riders = input("Введите количество новых жокеев")
+
+    for i in range(count_riders):
+        rider = input("Введите имя, email и возраст жокея")
+        cur.execute(f"""INSERT INTO riders VALUES ('{rider}')  """)
+        conn.commit()
+        cur.execute("""SELECT * FROM rider """)
+        print(cur.fetchall())
+
+    conn.close()
+
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
 
@@ -169,7 +187,8 @@ def menu():
     print("2. Посмотреть информацию о владельцах лошадей.")
     print("3. Посмотреть информацию о жокеях.")
     print("4. Посмотреть информацию о состязаниях.")
-    print("5. Выход.")
+    print("5. Добавить информацию о жокеях")
+    print("6. Выход.")
     print("-----------------------------------------------")
 
 
@@ -181,8 +200,6 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        #вывод через простгрес
-        postgres_table()
         #show_norm_table(1)
     elif choice == 2:
         print("Владельцы:")
@@ -195,7 +212,10 @@ while True:
     elif choice == 4:
         print("Состязания:")
         show_table("competition")
-    elif choice == 5:
+    elif choice == 6:
+        print("Добавление информации о жокеях")
+        enter_riders()
+    elif choice == 7:
         break;
     else:
         print("Недействительное значение.")
