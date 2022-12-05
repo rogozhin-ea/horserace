@@ -1,4 +1,21 @@
 import sqlite3
+import psycopg2
+
+def postgres_table():
+    host = "192.168.0.30"
+    user = "postgres"
+    password = "secret"
+    db_name = "horses_racing"
+    port = "5432"
+
+    conn = psycopg2.connect(database=db_name, user=user, password=password, host=host, port=port)
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM horses;")
+    print(cur.fetchall())
+
+    conn.close()
+
 
 
 def show_table(name_for_show):
@@ -164,7 +181,9 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        show_norm_table(1)
+        #вывод через простгрес
+        postgres_table()
+        #show_norm_table(1)
     elif choice == 2:
         print("Владельцы:")
         print("Имя                                Адрес                                                         Возраст")
