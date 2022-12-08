@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      -./horse_volum:/home/horserace
     depends_on:
       - database
     stdin_open: true
