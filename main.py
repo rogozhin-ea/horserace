@@ -145,7 +145,7 @@ def show_norm_table(option):
 
 def enter_riders():
     while True:
-        host = "192.168.31.20"
+        host = "192.168.31.90"
         user = "postgres"
         password = "secret"
         db_name = "horse_riders"
@@ -190,7 +190,7 @@ def enter_riders():
         break;
 
 def show_riders ():
-    host = "192.168.31.20"
+    host = "192.168.31.90"
     user = "postgres"
     password = "secret"
     db_name = "horse_riders"
