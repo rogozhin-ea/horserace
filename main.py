@@ -1,5 +1,6 @@
 import sqlite3
-
+import psycopg2
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
@@ -142,6 +143,70 @@ def show_norm_table(option):
     connection.close()
 
 
+def enter_riders():
+    while True:
+        host = "192.168.31.90"
+        user = "postgres"
+        password = "secret"
+        db_name = "horse_riders"
+        port = "5432"
+
+        try:
+            connection = psycopg2.connect(user=user, password=password, host=host, port=port)
+            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        except:
+            print("Ошибка подключения")
+            break;
+
+        cursor = connection .cursor()
+        cursor.execute(f"CREATE DATABASE {db_name};")
+        print("База данных " + db_name + " успешно созданна" )
+
+        connection.close()
+
+        try:
+            connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        except:
+            print("Ошибка подключения")
+            break;
+        try:
+            cursor = connection.cursor()
+            cursor.execute("""CREATE TABLE riders (id SERIAL NOT NULL PRIMARY KEY, name CHARACTER VARYING(30),email CHARACTER VARYING(30),age INT);""")
+        except:
+            print("Ошибка создания таблицы")
+            break;
+
+        count_riders = input("Введите количество новых жокеев: ")
+
+        for i in range(int(count_riders)):
+            rider = input("Введите имя, email и возраст жокея: ").replace('"' , "'")
+            cursor.execute(f"""INSERT INTO public.riders (name,email,age) VALUES ({rider});""")
+            connection.commit()
+            cursor.execute("""SELECT * FROM public.riders """)
+            print(cursor.fetchall())
+
+        connection.close()
+        break;
+
+def show_riders ():
+    host = "192.168.31.90"
+    user = "postgres"
+    password = "secret"
+    db_name = "horse_riders"
+    port = "5432"
+
+    try:
+        connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    except:
+        print("Ошибка подключения")
+
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM public.riders """)
+    print(cursor.fetchall())
+
+    connection.close()
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
 
@@ -152,7 +217,8 @@ def menu():
     print("2. Посмотреть информацию о владельцах лошадей.")
     print("3. Посмотреть информацию о жокеях.")
     print("4. Посмотреть информацию о состязаниях.")
-    print("5. Выход.")
+    print("5. Добавить информацию о жокеях")
+    print("6. Выход.")
     print("-----------------------------------------------")
 
 
@@ -164,19 +230,21 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        show_norm_table(1)
+        #show_norm_table(1)
     elif choice == 2:
         print("Владельцы:")
         print("Имя                                Адрес                                                         Возраст")
         show_norm_table(2)
     elif choice == 3:
         print("Жокеи:")
-        print("Имя                           Адрес                                                         Возраст  Рейтинг")
-        show_norm_table(3)
+        show_riders()
     elif choice == 4:
         print("Состязания:")
         show_table("competition")
     elif choice == 5:
+        print("Добавление информации о жокеях")
+        enter_riders()
+    elif choice == 6:
         break;
     else:
         print("Недействительное значение.")
