@@ -15,6 +15,7 @@ services:
 
   app:
     container_name: horserace
+    image: v279e/horserace:latest
     build:
       context: .
       dockerfile: Dockerfile
