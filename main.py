@@ -2,6 +2,7 @@ import sqlite3
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
     cursor = connection.cursor()
@@ -189,7 +190,7 @@ def enter_riders():
         connection.close()
         break;
 
-def show_riders ():
+def show_riders():
     host = "192.168.31.90"
     user = "postgres"
     password = "secret"
@@ -230,7 +231,7 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        #show_norm_table(1)
+        show_norm_table(1)
     elif choice == 2:
         print("Владельцы:")
         print("Имя                                Адрес                                                         Возраст")
