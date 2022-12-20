@@ -230,7 +230,7 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        #show_norm_table(1)
+        show_norm_table(1)
     elif choice == 2:
         print("Владельцы:")
         print("Имя                                Адрес                                                         Возраст")
