@@ -207,7 +207,7 @@ def show_riders ():
     print(cursor.fetchall())
 
     connection.close()
-print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
+print("Добро пожаловать в приложение клуба любителей  скачек «RamHorse»!")
 
 
 def menu():
