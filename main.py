@@ -146,24 +146,11 @@ def show_norm_table(option):
 
 def enter_riders():
     while True:
-        host = "192.168.31.90"
+        host = "192.168.31.10"
         user = "postgres"
         password = "secret"
-        db_name = "horse_riders"
+        db_name = "postgres"
         port = "5432"
-
-        try:
-            connection = psycopg2.connect(user=user, password=password, host=host, port=port)
-            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        except:
-            print("Ошибка подключения")
-            break;
-
-        cursor = connection .cursor()
-        cursor.execute(f"CREATE DATABASE {db_name};")
-        print("База данных " + db_name + " успешно созданна" )
-
-        connection.close()
 
         try:
             connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
@@ -171,13 +158,8 @@ def enter_riders():
         except:
             print("Ошибка подключения")
             break;
-        try:
-            cursor = connection.cursor()
-            cursor.execute("""CREATE TABLE riders (id SERIAL NOT NULL PRIMARY KEY, name CHARACTER VARYING(30),email CHARACTER VARYING(30),age INT);""")
-        except:
-            print("Ошибка создания таблицы")
-            break;
 
+        cursor = connection.cursor()
         count_riders = input("Введите количество новых жокеев: ")
 
         for i in range(int(count_riders)):
@@ -191,10 +173,10 @@ def enter_riders():
         break;
 
 def show_riders ():
-    host = "192.168.31.90"
+    host = "192.168.31.10"
     user = "postgres"
     password = "secret"
-    db_name = "horse_riders"
+    db_name = "postgres"
     port = "5432"
 
     try:
@@ -204,7 +186,101 @@ def show_riders ():
         print("Ошибка подключения")
 
     cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM public.riders """)
+    cursor.execute("""SELECT * FROM public.rider """)
+    print(cursor.fetchall())
+
+    connection.close()
+
+def enter_horses():
+    while True:
+        host = "192.168.31.10"
+        user = "postgres"
+        password = "secret"
+        db_name = "postgres"
+        port = "5432"
+
+        try:
+            connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        except:
+            print("Ошибка подключения")
+            break;
+
+        cursor = connection.cursor()
+        count_riders = input("Введите количество новых лошадей: ")
+
+        for i in range(int(count_riders)):
+            rider = input("Введите имя, пол, возраст и id владельца лошади: ").replace('"' , "'")
+            cursor.execute(f"""INSERT INTO public.horses (nickname,gender,age,id_owner) VALUES ({rider});""")
+            connection.commit()
+            cursor.execute("""SELECT * FROM public.horses """)
+            print(cursor.fetchall())
+
+        connection.close()
+        break;
+
+def show_horses ():
+    host = "192.168.31.10"
+    user = "postgres"
+    password = "secret"
+    db_name = "postgres"
+    port = "5432"
+
+    try:
+        connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    except:
+        print("Ошибка подключения")
+
+    cursor = connection.cursor()
+    cursor.execute(""" SELECT * FROM public.horses """)
+    print(cursor.fetchall())
+
+    connection.close()
+
+def enter_owner():
+    while True:
+        host = "192.168.31.10"
+        user = "postgres"
+        password = "secret"
+        db_name = "postgres"
+        port = "5432"
+
+        try:
+            connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        except:
+            print("Ошибка подключения")
+            break;
+
+        cursor = connection.cursor()
+        count_riders = input("Введите количество новых лошадей: ")
+
+        for i in range(int(count_riders)):
+            rider = input("Введите имя, адрес и телефон владельца: ").replace('"' , "'")
+            cursor.execute(f"""INSERT INTO public.owner (name,address,phone) VALUES ({rider});""")
+            connection.commit()
+            cursor.execute("""SELECT * FROM public.owner """)
+            print(cursor.fetchall())
+
+        connection.close()
+        break;
+
+def show_owner ():
+    host = "192.168.31.10"
+    user = "postgres"
+    password = "secret"
+    db_name = "postgres"
+    port = "5432"
+
+    try:
+        connection = psycopg2.connect(user=user, password=password, host=host, port=port, dbname=db_name)
+        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    except:
+        print("Ошибка подключения")
+
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM public.owner """)
     print(cursor.fetchall())
 
     connection.close()
@@ -219,7 +295,9 @@ def menu():
     print("3. Посмотреть информацию о жокеях.")
     print("4. Посмотреть информацию о состязаниях.")
     print("5. Добавить информацию о жокеях")
-    print("6. Выход.")
+    print("6. Добавить информацию о лошадях")
+    print("7. Добавить информацию о владельцах")
+    print("8. Выход.")
     print("-----------------------------------------------")
 
 
@@ -231,11 +309,11 @@ while True:
     if choice == 1:
         print("Лошади:")
         print("Имя         Пол         Возраст")
-        #show_norm_table(1)
+        show_horses()
     elif choice == 2:
         print("Владельцы:")
         print("Имя                                Адрес                                                         Возраст")
-        show_norm_table(2)
+        show_owner()
     elif choice == 3:
         print("Жокеи:")
         show_riders()
@@ -246,6 +324,12 @@ while True:
         print("Добавление информации о жокеях")
         enter_riders()
     elif choice == 6:
+        print("Добавление информации о лошадях")
+        enter_horses()
+    elif choice == 7:
+        print("Добавление информации о вадельцах")
+        enter_owner()
+    elif choice == 8:
         break;
     else:
         print("Недействительное значение.")
