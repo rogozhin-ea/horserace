@@ -2,6 +2,7 @@ import sqlite3
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
     cursor = connection.cursor()
@@ -14,7 +15,7 @@ def show_table(name_for_show):
         row_string = str(row).replace("(", "").replace(")", "").replace("'", "")
         print(row_string)
     connection.close()
-
+    #Изменение 2
 
 def show_norm_table(option):
     connection = sqlite3.connect('horse_racing.db')
@@ -207,7 +208,7 @@ def show_riders ():
     print(cursor.fetchall())
 
     connection.close()
-print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
+print("Добро пожаловать в приложение клуба любителей  скачек «RamHorse»!")
 
 
 def menu():
