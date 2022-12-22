@@ -14,7 +14,7 @@ def show_table(name_for_show):
         row_string = str(row).replace("(", "").replace(")", "").replace("'", "")
         print(row_string)
     connection.close()
-
+    #Изменение 2
 
 def show_norm_table(option):
     connection = sqlite3.connect('horse_racing.db')
