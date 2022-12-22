@@ -2,6 +2,7 @@ import sqlite3
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
     cursor = connection.cursor()
