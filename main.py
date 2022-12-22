@@ -1,6 +1,32 @@
 import sqlite3
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import sys
+#import psycopg2
+#from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+def input_auth():
+    print("-----------------------------------------------")
+    login = str(input("Введите логин: "))
+    password = str(input("Введите пароль: "))
+    print("-----------------------------------------------")
+    flag = auth(login, password)
+    return flag
+
+
+def auth(login, password):
+    connection = sqlite3.connect('users.db')
+    cursor = connection.cursor()
+    sql = f"SELECT * FROM users WHERE login = '{login}' AND password = '{password}'"
+    cursor.execute(str(sql))
+    logpass = cursor.fetchall()
+    if len(logpass) != 0:
+        fl_auth = 1
+        print("Авторизация выполнена успешно")
+        return fl_auth
+    else:
+        fl_auth = 0
+        print("Авторизация не удалась")
+        return fl_auth
+
 
 def show_table(name_for_show):
     connection = sqlite3.connect('horse_racing.db')
@@ -14,6 +40,7 @@ def show_table(name_for_show):
         row_string = str(row).replace("(", "").replace(")", "").replace("'", "")
         print(row_string)
     connection.close()
+    return 'Success'
 
 
 def show_norm_table(option):
@@ -45,6 +72,7 @@ def show_norm_table(option):
             age_string = str(age_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
 
             print(name_string, gen_string, age_string)
+            return name_string.replace(" ", ""), gen_string.replace(" ", ""), age_string.replace(" ", "")
 
     elif option == 2:
         sql = "SELECT * FROM owner"
@@ -76,6 +104,7 @@ def show_norm_table(option):
             age_string = str(age_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
 
             print(name_string, address_string, age_string)
+            return name_string, address_string, age_string
 
     elif option == 3:
         sql = "SELECT * FROM rider"
@@ -112,6 +141,7 @@ def show_norm_table(option):
             rating_string = str(rating_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
 
             print(name_string, address_string, age_string, rating_string)
+            return name_string, address_string, age_string, rating_string
 
     elif option == 4:
         sql = "SELECT * FROM horses"
@@ -139,10 +169,22 @@ def show_norm_table(option):
             age_string = str(age_record).replace("(", "").replace(")", "").replace("'", "").replace(",", "")
 
             print(name_string, gen_string, age_string)
+            return name_string, gen_string, age_string
+
+    else:
+        msg = "Недействительное значение."
+        print(msg)
+        return msg
 
     connection.close()
 
 
+def enter_table(login, password):
+    print("Временно недоступно")
+
+
+
+'''
 def enter_riders():
     while True:
         host = "192.168.31.90"
@@ -207,6 +249,8 @@ def show_riders ():
     print(cursor.fetchall())
 
     connection.close()
+'''
+
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
 
@@ -218,33 +262,84 @@ def menu():
     print("3. Посмотреть информацию о жокеях.")
     print("4. Посмотреть информацию о состязаниях.")
     print("5. Добавить информацию о жокеях")
-    print("6. Выход.")
+    print("6. Добавить информацию о лошадях")
+    print("7. Добавить информацию о владельцах лошадей")
+    print("8. Добавить информацию о состязаниях")
+    print("9. Выход.")
     print("-----------------------------------------------")
 
+def inf_menu(fl_auth):
+    if fl_auth != 1:
+        if fl_auth != 0:
+            return "Fail"
+    if fl_auth != 0:
+        if fl_auth != 1:
+            return "Fail"
+    while True:
+        menu()
+        choice = input("Введите ваш выбор: ")
+        print("-----------------------------------------------")
 
-while True:
-    menu()
-    choice = int(input("Введите ваш выбор: "))
-    print("-----------------------------------------------")
+        if choice == "1":
+            print("Лошади:")
+            print("Имя         Пол         Возраст")
+            show_norm_table(1)
+        elif choice == "2":
+            print("Владельцы:")
+            print("Имя                                Адрес                                                         Возраст")
+            show_norm_table(2)
+        elif choice == "3":
+            print("Жокеи:")
+            #show_riders()
+        elif choice == "4":
+            print("Состязания:")
+            show_table("competition")
+        elif choice == "5":
+            if fl_auth == 1:
+                print()
+                enter_table()
+            else:
+                print("Для продолжения необходимо авторизоваться")
+            #enter_riders()
+        elif choice == "6":
+            if fl_auth == 1:
+                enter_table()
+            else:
+                print("Для продолжения необходимо авторизоваться")
+        elif choice == "7":
+            if fl_auth == 1:
+                enter_table()
+            else:
+                print("Для продолжения необходимо авторизоваться")
+        elif choice == "8":
+            if fl_auth == 1:
+                enter_table()
+            else:
+                print("Для продолжения необходимо авторизоваться")
+        elif choice == "9":
+            break;
+        else:
+            print("Недействительное значение.")
 
-    if choice == 1:
-        print("Лошади:")
-        print("Имя         Пол         Возраст")
-        show_norm_table(1)
-    elif choice == 2:
-        print("Владельцы:")
-        print("Имя                                Адрес                                                         Возраст")
-        show_norm_table(2)
-    elif choice == 3:
-        print("Жокеи:")
-        show_riders()
-    elif choice == 4:
-        print("Состязания:")
-        show_table("competition")
-    elif choice == 5:
-        print("Добавление информации о жокеях")
-        enter_riders()
-    elif choice == 6:
-        break;
-    else:
-        print("Недействительное значение.")
+
+def start_menu():
+    authorized = 0
+    while True:
+        print("-----------------------------------------------")
+        print("Выберите опцию:")
+        print("1. Авторизоваться")
+        print("2. Открыть меню")
+        print("3. Выйти")
+        print("-----------------------------------------------")
+        choice = input("Введите ваш выбор: ")
+        if choice == "1":
+            authorized = input_auth()
+        elif choice == "2":
+            inf_menu(authorized)
+        elif choice == "3":
+            break;
+        else:
+            print("Недействительное значение.")
+
+
+start_menu()
