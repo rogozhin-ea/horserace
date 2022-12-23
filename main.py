@@ -338,4 +338,4 @@ def start_menu():
             print("Недействительное значение.")
 
 
-start_menu()
+#start_menu()
