@@ -1,6 +1,6 @@
 import sqlite3
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+#import psycopg2
+#from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 def input_auth():
     print("-----------------------------------------------")
@@ -181,7 +181,7 @@ def show_norm_table(option):
 def enter_table(login, password):
     print("Временно недоступно")
 
-
+'''
 def enter_riders():
     while True:
         host = "192.168.31.90"
@@ -246,6 +246,7 @@ def show_riders ():
     print(cursor.fetchall())
 
     connection.close()
+'''
 
 print("Добро пожаловать в приложение клуба любителей скачек «RamHorse»!")
 
@@ -292,8 +293,8 @@ def inf_menu(fl_auth):
             show_table("competition")
         elif choice == "5":
             if fl_auth == 1:
-                print()
-                enter_riders()
+                print("Yes")
+                #enter_riders()
             else:
                 print("Для продолжения необходимо авторизоваться")
         elif choice == "6":
