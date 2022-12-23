@@ -266,12 +266,14 @@ def menu():
     print("-----------------------------------------------")
 
 def inf_menu(fl_auth):
+    '''
     if fl_auth != 1:
         if fl_auth != 0:
             return "Fail"
     if fl_auth != 0:
         if fl_auth != 1:
             return "Fail"
+    '''
     while True:
         menu()
         choice = input("Введите ваш выбор: ")
