@@ -8,5 +8,5 @@ RUN apt-get update && apt-get install -y python3 && apt install -y python3-psyco
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install bandit && pip install pycodestyle
-RUN analyze.py
+CMD ["puthon3", "analyze.py"]
 ENTRYPOINT ["bash"]
